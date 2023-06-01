@@ -1,0 +1,7 @@
+.mat-form-field {
+  width: inherit;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 110, 2, 0.8);
+}
