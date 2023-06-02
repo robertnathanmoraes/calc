@@ -1,0 +1,16 @@
+{
+  "faixas": [
+    {
+      "idadeMin": 0,
+      "idadeMax": 18,
+      "teto": 219,
+      "porcentagem": 3.6
+    },
+    {
+      "idadeMin": 19,
+      "idadeMax": 23,
+      "teto": 264,
+      "porcentagem": 3.6
+    }
+  ]
+}

@@ -1,10 +1,13 @@
 import {Component} from '@angular/core';
+// @ts-ignore
+import faixasEtariasJSON from '../assets/formula.json';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'calc';
   submitForm: any;
@@ -38,4 +41,37 @@ export class AppComponent {
       value: 'Tutelado(a)'
     },
   ]
+
+
+  calcularTetoPorcentagem(calculoSalario: number, idade: number, faixas: FaixaEtaria[]): number {
+    const faixa = faixas.find((faixaEtaria) => idade >= faixaEtaria.idadeMin && idade <= faixaEtaria.idadeMax);
+
+    if (faixa) {
+      const valorCalculo = calculoSalario * (faixa.porcentagem / 100);
+      return Math.min(valorCalculo, faixa.teto);
+    }
+
+    return 0; // Faixa etária não encontrada
+  }
+
+
+
+  teste(){
+
+    const faixasEtarias: FaixaEtaria[] = faixasEtariasJSON.faixas;
+
+// Exemplo de uso com valores do formulário
+    const calculoSalario: number = 3000;
+    const idade: number = 25;
+    const resultado: number = this.calcularTetoPorcentagem(calculoSalario, idade, faixasEtarias);
+    console.log(resultado); // Exibirá o resultado calculado
+
+  }
+
+}
+interface FaixaEtaria {
+  idadeMin: number;
+  idadeMax: number;
+  teto: number;
+  porcentagem: number;
 }
