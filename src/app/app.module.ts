@@ -13,12 +13,20 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
+import {DecimalPipe} from "@angular/common";
+import {MatListModule} from "@angular/material/list";
+import {CurrencyMaskModule} from "ng2-currency-mask";
+import {NgxCurrencyModule} from "ngx-currency";
+import {NgxMaskModule} from "ngx-mask";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    NgxMaskModule.forRoot(),
+    CurrencyMaskModule,
+    NgxCurrencyModule,
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -30,9 +38,10 @@ import {HttpClientModule} from "@angular/common/http";
     MatTableModule,
     MatOptionModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatListModule
   ],
-  providers: [],
+  providers: [DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

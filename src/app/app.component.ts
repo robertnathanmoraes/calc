@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 // @ts-ignore
 import faixasEtariasJSON from '../assets/formula.json';
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,6 @@ import faixasEtariasJSON from '../assets/formula.json';
 })
 
 export class AppComponent {
-  title = 'calc';
-  submitForm: any;
   grauDependencia = [
     {
       nome: 'Cônjuge e companheiro(a)',
@@ -41,33 +40,46 @@ export class AppComponent {
       value: 'Tutelado(a)'
     },
   ]
+  calculoSalario: string = '';
+  idade: string = '';
+  resultado: string = '';
+  submitForm: any;
 
+  constructor(private formBuilder: FormBuilder) {
+    this.submitForm = this.formBuilder.group({
+      salarioContribuicao: [null, Validators.required],
+      idade: [null, Validators.required],
+      grauDependencia: [''],
+      dependenteIdade: ['']
+    });
+  }
 
-  calcularTetoPorcentagem(calculoSalario: number, idade: number, faixas: FaixaEtaria[]): number {
-    const faixa = faixas.find((faixaEtaria) => idade >= faixaEtaria.idadeMin && idade <= faixaEtaria.idadeMax);
+  loadFaixasEtarias() {
+    const faixasEtarias: FaixaEtaria[] = faixasEtariasJSON.faixas;
+    this.resultado = this.calcularTetoPorcentagem(faixasEtarias).toFixed(2);
+  }
 
-    if (faixa) {
-      const valorCalculo = calculoSalario * (faixa.porcentagem / 100);
-      return Math.min(valorCalculo, faixa.teto);
+  calcularTetoPorcentagem(faixasEtarias: FaixaEtaria[]): number {
+    const calculoSalario = parseFloat(this.submitForm.value.salarioContribuicao);
+    const idade = parseFloat(this.submitForm.value.idade);
+
+    console.log('Idade:', idade);
+    console.log('Faixas:', faixasEtarias);
+
+    for (let i = 0; i < faixasEtarias.length; i++) {
+      const faixa = faixasEtarias[i];
+      console.log('Verificando faixa:', faixa);
+
+      if (idade >= faixa.idadeMin && idade <= faixa.idadeMax) {
+        const valorCalculo = (calculoSalario * faixa.porcentagem) / 100;
+        console.log('Valor cálculo:', valorCalculo);
+
+        return Math.min(valorCalculo, faixa.teto);
+      }
     }
 
     return 0; // Faixa etária não encontrada
   }
-
-
-
-  teste(){
-
-    const faixasEtarias: FaixaEtaria[] = faixasEtariasJSON.faixas;
-
-// Exemplo de uso com valores do formulário
-    const calculoSalario: number = 3000;
-    const idade: number = 25;
-    const resultado: number = this.calcularTetoPorcentagem(calculoSalario, idade, faixasEtarias);
-    console.log(resultado); // Exibirá o resultado calculado
-
-  }
-
 }
 interface FaixaEtaria {
   idadeMin: number;

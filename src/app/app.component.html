@@ -9,46 +9,37 @@
 </div>
 
 <div class="container d-flex">
-
-
   <form [formGroup]="submitForm" #documentEditForm="ngForm" style="width: inherit" novalidate>
     <div class="col-12">
-
       <div class="row">
         <h1>Dados do Titular</h1>
       </div>
-
       <div class="row">
         <div class="col-12">
-
           <div class="col-8">
             <mat-form-field appearance="outline">
               <mat-label>Salário de Contribuição *</mat-label>
-              <input matInput placeholder="R$">
+              <input matInput placeholder="R$" mask="0.000,00" formControlName="salarioContribuicao">
             </mat-form-field>
-          </div>
 
+          </div>
           <div class="col-8">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput>
+              <input matInput formControlName="idade">
             </mat-form-field>
           </div>
         </div>
       </div>
-
       <div class="row">
         <h1>Dependentes</h1>
       </div>
-
       <div class="row">
-
-        <div class="col-12">
-
-          <div class="col-6">
+        <div class="col-12 d-flex">
+          <div class="col-8">
             <mat-form-field appearance="outline">
-              <mat-label>Favorite food</mat-label>
-              <mat-select>
+              <mat-label>Grau de Dependência</mat-label>
+              <mat-select formControlName="grauDependencia">
                 <mat-option *ngFor="let name of grauDependencia" [value]="name.nome"
                             style="font-size: 13px; height: 35px">
                   {{name.nome}}
@@ -56,23 +47,43 @@
               </mat-select>
             </mat-form-field>
           </div>
-
-          <div class="col-6">
+          <div class="col-4">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput placeholder="Placeholder">
+              <input matInput placeholder="Placeholder" formControlName="dependenteIdade">
             </mat-form-field>
           </div>
+        </div>
 
+      </div>
+      <div class="row" style="padding: 15px">
+        <div class="col-12">
+          <button class="col-12" [disabled]="submitForm.invalid" style="height: 5vh; background-color: rgba(49,133,35,0.92)" mat-raised-button (click)="loadFaixasEtarias()" >CALCULAR</button>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-12 d-flex justify-content-center">
-        <button class="col-10" style="height: 5vh; background-color: rgba(49,133,35,0.92)" mat-raised-button (click)="teste()" >CALCULAR</button>
+    <div class="row" *ngIf="resultado !== ''">
+      <div class="col-12">
+        <mat-list *ngIf="resultado" class="mat-elevation-z0 card">
+          <mat-list-item class="mat-elevation-z1">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <span class="result-label">Idade do Titular:</span>
+            <span class="result-value">{{ submitForm.value.idade }}</span>
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z1">
+            <mat-icon mat-list-icon>attach_money</mat-icon>
+            <span class="result-label">Contribuição Efetiva:</span>
+            <span class="result-value">R${{ resultado }}</span>
+          </mat-list-item>
+        </mat-list>
       </div>
     </div>
+
   </form>
+
+
+
+
 </div>
 
