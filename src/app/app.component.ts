@@ -47,8 +47,8 @@ export class AppComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.submitForm = this.formBuilder.group({
-      salarioContribuicao: [null, Validators.required],
-      idade: [null, Validators.required],
+      salarioContribuicao: [''],
+      idade: [''],
       grauDependencia: [''],
       dependenteIdade: ['']
     });
