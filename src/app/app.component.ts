@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 // @ts-ignore
 import faixasEtariasJSON from '../assets/formula.json';
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -51,9 +51,39 @@ export class AppComponent {
       salarioContribuicao: [null, Validators.required],
       idade: [null, Validators.required],
       grauDependencia: [''],
+      dependenteIdade: [''],
+      numeroDependentes: [''],
+      dependentes: this.formBuilder.array([])
+    });
+
+  }
+
+  adicionarDependentes() {
+    const numeroDependentes = this.submitForm.value.numeroDependentes;
+
+    // Limpar dependentes existentes
+    this.limparDependentes();
+
+    // Adicionar novos dependentes com base no número digitado
+    for (let i = 0; i < numeroDependentes; i++) {
+      this.adicionarDependente();
+    }
+  }
+
+  adicionarDependente() {
+    const dependentes = this.submitForm.get('dependentes') as FormArray;
+
+    const dependenteGroup = this.formBuilder.group({
+      grauDependencia: [''],
       dependenteIdade: ['']
     });
 
+    dependentes.push(dependenteGroup);
+  }
+
+  limparDependentes() {
+    const dependentes = this.submitForm.get('dependentes') as FormArray;
+    dependentes.clear();
   }
 
   loadFaixasEtarias() {
