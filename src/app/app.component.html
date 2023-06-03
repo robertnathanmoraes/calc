@@ -68,12 +68,12 @@
       <div class="col-12">
         <mat-list *ngIf="resultado" class="mat-elevation-z0 card">
           <mat-list-item class="mat-elevation-z1">
-            <p class="result-label">Titular ({{faixaIdade}} anos):</p>
-            <p class="result-value">{{ submitForm.value.idade }}</p>
+            <p class="result-label mb-0 col-6">Titular ({{faixaIdade}} anos):</p>
+            <p class="result-value mb-0 col-4">{{ this.idade }}</p>
           </mat-list-item>
-          <mat-list-item class="mat-elevation-z1" style="background-color: #bfc0c1; font-weight: 550">
-            <p class="result-label">Contribuição Efetiva</p>
-            <p class="result-value">R${{ resultado }}</p>
+          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 550">
+            <p class="result-label mb-0 col-6">Contribuição Efetiva</p>
+            <p class="result-value mb-0 col-4">R${{ resultado }}</p>
           </mat-list-item>
         </mat-list>
       </div>

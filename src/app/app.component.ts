@@ -41,7 +41,7 @@ export class AppComponent {
     },
   ]
   salario: string = '';
-  idade: string = '';
+  idade: any = '';
   resultado: string = '';
   submitForm: any;
   faixaIdade: string | undefined
@@ -71,6 +71,7 @@ export class AppComponent {
       if (idade >= faixa.idadeMin && idade <= faixa.idadeMax) {
         const valorCalculo = (salario * faixa.porcentagem) / 100;
         this.faixaIdade = ((faixa.idadeMax >= 60 ? "Acima de 59 anos" : faixa.idadeMin + '-' + faixa.idadeMax) )
+        this.idade  = idade
         return Math.min(valorCalculo, faixa.teto);
       }
     }
