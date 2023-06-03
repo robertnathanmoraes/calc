@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -15,10 +15,18 @@ import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
 import {DecimalPipe} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
-import {CurrencyMaskModule} from "ng2-currency-mask";
-import {NgxCurrencyModule} from "ngx-currency";
+import {CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG} from "ng2-currency-mask";
 import {NgxMaskModule} from "ngx-mask";
 
+export const customCurrencyMaskConfig: CurrencyMaskConfig = {
+  allowNegative: false,
+  decimal: ",",
+  precision: 2,
+  prefix: "R$",
+  suffix: "",
+  thousands: ".",
+  align: 'left'
+}
 @NgModule({
   declarations: [
     AppComponent
@@ -26,7 +34,6 @@ import {NgxMaskModule} from "ngx-mask";
   imports: [
     NgxMaskModule.forRoot(),
     CurrencyMaskModule,
-    NgxCurrencyModule,
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -41,7 +48,10 @@ import {NgxMaskModule} from "ngx-mask";
     MatButtonModule,
     MatListModule
   ],
-  providers: [DecimalPipe],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
+    {provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

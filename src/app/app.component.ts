@@ -40,18 +40,20 @@ export class AppComponent {
       value: 'Tutelado(a)'
     },
   ]
-  calculoSalario: string = '';
+  salario: string = '';
   idade: string = '';
   resultado: string = '';
   submitForm: any;
+  faixaIdade: string | undefined
 
   constructor(private formBuilder: FormBuilder) {
     this.submitForm = this.formBuilder.group({
-      salarioContribuicao: [''],
-      idade: [''],
+      salarioContribuicao: [null, Validators.required],
+      idade: [null, Validators.required],
       grauDependencia: [''],
       dependenteIdade: ['']
     });
+
   }
 
   loadFaixasEtarias() {
@@ -60,20 +62,15 @@ export class AppComponent {
   }
 
   calcularTetoPorcentagem(faixasEtarias: FaixaEtaria[]): number {
-    const calculoSalario = parseFloat(this.submitForm.value.salarioContribuicao);
+    const salario = parseFloat(this.submitForm.value.salarioContribuicao);
     const idade = parseFloat(this.submitForm.value.idade);
-
-    console.log('Idade:', idade);
-    console.log('Faixas:', faixasEtarias);
 
     for (let i = 0; i < faixasEtarias.length; i++) {
       const faixa = faixasEtarias[i];
-      console.log('Verificando faixa:', faixa);
 
       if (idade >= faixa.idadeMin && idade <= faixa.idadeMax) {
-        const valorCalculo = (calculoSalario * faixa.porcentagem) / 100;
-        console.log('Valor cálculo:', valorCalculo);
-
+        const valorCalculo = (salario * faixa.porcentagem) / 100;
+        this.faixaIdade = ((faixa.idadeMax >= 60 ? "Acima de 59 anos" : faixa.idadeMin + '-' + faixa.idadeMax) )
         return Math.min(valorCalculo, faixa.teto);
       }
     }

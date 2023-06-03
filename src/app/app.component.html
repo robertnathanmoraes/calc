@@ -19,7 +19,7 @@
           <div class="col-8">
             <mat-form-field appearance="outline">
               <mat-label>Salário de Contribuição *</mat-label>
-              <input matInput placeholder="R$" formControlName="salarioContribuicao">
+              <input currencyMask matInput placeholder="R$" formControlName="salarioContribuicao">
             </mat-form-field>
 
           </div>
@@ -64,17 +64,16 @@
     </div>
 
     <div class="row" *ngIf="resultado !== ''">
+
       <div class="col-12">
         <mat-list *ngIf="resultado" class="mat-elevation-z0 card">
           <mat-list-item class="mat-elevation-z1">
-            <mat-icon mat-list-icon>person</mat-icon>
-            <span class="result-label">Idade do Titular:</span>
-            <span class="result-value">{{ submitForm.value.idade }}</span>
+            <p class="result-label">Titular ({{faixaIdade}} anos):</p>
+            <p class="result-value">{{ submitForm.value.idade }}</p>
           </mat-list-item>
-          <mat-list-item class="mat-elevation-z1">
-            <mat-icon mat-list-icon>attach_money</mat-icon>
-            <span class="result-label">Contribuição Efetiva:</span>
-            <span class="result-value">R${{ resultado }}</span>
+          <mat-list-item class="mat-elevation-z1" style="background-color: #bfc0c1; font-weight: 550">
+            <p class="result-label">Contribuição Efetiva</p>
+            <p class="result-value">R${{ resultado }}</p>
           </mat-list-item>
         </mat-list>
       </div>
