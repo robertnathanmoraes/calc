@@ -1,0 +1,11 @@
+identifier: lbiaj0s8p683j6v3
+appPort: 1864
+staticPort: 1668
+reloadPort: 2667
+hostName: localhost
+projectName: calc
+homeFolder: C:\Users\Robert\WebstormProjects\calculadoraPlano
+distFolder: dist/calc
+outDir: C:\Users\Robert\WebstormProjects\calculadoraPlano\dist\static
+handle404: ''
+allowErrorCollect: true

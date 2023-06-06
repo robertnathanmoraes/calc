@@ -17,6 +17,8 @@ import {DecimalPipe} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG} from "ng2-currency-mask";
 import {NgxMaskModule} from "ngx-mask";
+import {ScullyLibModule} from '@scullyio/ng-lib'
+import {Router, RouterModule} from "@angular/router";
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   allowNegative: false,
@@ -32,6 +34,9 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     AppComponent
   ],
   imports: [
+    BrowserModule,
+    RouterModule.forRoot([]), // Certifique-se de importar o RouterModule e defina as rotas apropriadas
+    ScullyLibModule.forRoot(),
     NgxMaskModule.forRoot(),
     CurrencyMaskModule,
     HttpClientModule,
@@ -50,7 +55,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pt-BR'},
-    {provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig}
+    {provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig},
   ],
   bootstrap: [AppComponent]
 })
