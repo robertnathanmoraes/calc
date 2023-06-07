@@ -101,9 +101,14 @@
         </mat-list>
       </div>
     </div>
+    <div *ngFor="let resultado of resultados">
+      <p>Faixa de idade: {{ resultado.faixaIdade }}</p>
+      <p>Valor do cálculo: {{ resultado.valorCalculo.toFixed(2) }}</p>
+      <hr>
+    </div>
+
 
   </form>
-
 
 </div>
 
