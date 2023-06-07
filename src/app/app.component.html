@@ -10,6 +10,7 @@
 
 <div class="container d-flex">
   <form [formGroup]="submitForm" #documentEditForm="ngForm" style="width: inherit" novalidate>
+    <mat-card clas="" style="border-radius: 25px;">
     <div class="col-12">
       <div class="row">
         <h1>Dados do Titular</h1>
@@ -46,7 +47,7 @@
           </div>
 
           <div class="col-sm-12 col-md-4" style="padding-bottom: 10px">
-            <button  class="col-sm-12" style="height: 50px; margin-top: 3.5px; background-color: rgba(49,133,35,0.92)" mat-raised-button (click)="adicionarDependentes()">Adicionar Dependentes</button>
+            <button  class="col-sm-12 degrade" style="height: 50px; margin-top: 3.5px; " mat-raised-button (click)="adicionarDependentes()">Adicionar Dependentes</button>
           </div>
 
         </div>
@@ -89,19 +90,19 @@
     <div class="row" *ngIf="resultado !== ''">
 
       <div class="col-12">
-        <mat-list *ngIf="resultado" class="mat-elevation-z0 card">
-          <mat-list-item class="mat-elevation-z1">
+        <mat-list *ngIf="resultado">
+          <mat-list-item class="mat-elevation-z3" style="border-radius: 5px">
             <p class="result-label mb-0 col-6">Titular ({{faixaIdade}} anos):</p>
             <p class="result-value mb-0 col-4">{{ this.idade }}</p>
           </mat-list-item>
-          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 550">
+          <mat-list-item class="mat-elevation-z3" style="border-radius: 5px; background-color: #eae7e7; font-weight: 550">
             <p class="result-label mb-0 col-6">Contribuição Efetiva</p>
             <p class="result-value mb-0 col-4">R${{ resultado }}</p>
           </mat-list-item>
         </mat-list>
       </div>
     </div>
-
+    </mat-card>
   </form>
 
 

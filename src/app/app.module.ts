@@ -19,6 +19,7 @@ import {CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG} from "ng2-
 import {NgxMaskModule} from "ngx-mask";
 import {ScullyLibModule} from '@scullyio/ng-lib'
 import {Router, RouterModule} from "@angular/router";
+import {MatCardModule} from "@angular/material/card";
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   allowNegative: false,
@@ -51,7 +52,8 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     MatOptionModule,
     MatSelectModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
+    MatCardModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pt-BR'},
