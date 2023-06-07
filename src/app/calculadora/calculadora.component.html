@@ -1,0 +1,109 @@
+<mat-toolbar style="background-color: rgba(49,133,35,0.94)" xmlns="http://www.w3.org/1999/html">
+  <mat-toolbar-row>
+    <span>Calculadora Plano de Saude</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container d-flex mt-3 mb-5">
+  <h1>Simulador de Contribuição - Plano Principal (ainda em tramitação na AL/RS)</h1>
+</div>
+
+<div class="container d-flex">
+  <form [formGroup]="submitForm" #documentEditForm="ngForm" style="width: inherit" novalidate>
+    <div class="col-12">
+      <div class="row">
+        <h1>Dados do Titular</h1>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="col-sm-12 col-md-8">
+            <mat-form-field appearance="outline">
+              <mat-label>Salário de Contribuição *</mat-label>
+              <input currencyMask matInput placeholder="R$" formControlName="salarioContribuicao">
+            </mat-form-field>
+
+          </div>
+          <div class="col-sm-12 col-md-8">
+            <mat-form-field appearance="outline">
+              <mat-label>Idade</mat-label>
+              <input matInput formControlName="idade">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <h1>Dependentes</h1>
+      </div>
+      <div class="row">
+
+        <div class="col-12 d-flex flex-wrap">
+
+          <div class="col-sm-12 col-md-8">
+            <mat-form-field appearance="outline">
+              <mat-label>Número de Dependentes</mat-label>
+              <input matInput type="number" formControlName="numeroDependentes">
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-12 col-md-4" style="padding-bottom: 10px">
+            <button  class="col-sm-12" style="height: 50px; margin-top: 3.5px; background-color: rgba(49,133,35,0.92)" mat-raised-button (click)="adicionarDependentes()">Adicionar Dependentes</button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row" formArrayName="dependentes"
+           *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index">
+        <div [formGroupName]="i" class="col-12 d-flex">
+          <div class="col-8">
+            <mat-form-field appearance="outline">
+              <mat-label>Grau de Dependência</mat-label>
+              <mat-select formControlName="grauDependencia">
+                <mat-option *ngFor="let name of grauDependencia" [value]="name.nome"
+                            style="font-size: 13px; height: 35px">
+                  {{name.nome}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Idade</mat-label>
+              <input matInput placeholder="Placeholder" formControlName="dependenteIdade">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding: 15px">
+        <div class="col-12">
+          <button class="col-12" [disabled]="submitForm.invalid"
+                  style="height: 5vh; background-color: rgba(49,133,35,0.92)" mat-raised-button
+                  (click)="loadFaixasEtarias()">CALCULAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="resultado !== ''">
+
+      <div class="col-12">
+        <mat-list *ngIf="resultado" class="mat-elevation-z0 card">
+          <mat-list-item class="mat-elevation-z1">
+            <p class="result-label mb-0 col-6">Titular ({{faixaIdade}} anos):</p>
+            <p class="result-value mb-0 col-4">{{ this.idade }}</p>
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 550">
+            <p class="result-label mb-0 col-6">Contribuição Efetiva</p>
+            <p class="result-value mb-0 col-4">R${{ resultado }}</p>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+
+  </form>
+
+
+</div>
+
