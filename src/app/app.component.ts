@@ -16,6 +16,10 @@ export class AppComponent {
   resultado: string = '';
   submitForm: any;
   faixaIdade: string | undefined
+  calcular1: number = 0;
+  calcular2: number = 0;
+  calcular3: number = 0;
+  calcular4: number = 0;
   grauDependencia = [
     {
       nome: 'Cônjuge e companheiro(a)',
@@ -95,6 +99,8 @@ export class AppComponent {
     }
 
     this.faixasEtarias = faixasEtariasJSON.faixas;
+    const salario = parseFloat(this.submitForm.value.salarioContribuicao);
+    const idade = parseFloat(this.submitForm.value.idade);
 
     // Calcular resultados para todas as faixas etárias
     this.resultados = this.faixasEtarias.map((faixa) => {
@@ -103,6 +109,15 @@ export class AppComponent {
         valorCalculo: this.calcularTetoPorcentagem(faixa),
       };
     });
+
+    // @ts-ignore
+    this.calcular1 = this.calcularCenario1(salario);
+    // @ts-ignore
+    this.calcular2 = this.calcularCenario2(salario, idade);
+    // @ts-ignore
+    this.calcular3 = this.calcularCenario3(salario);
+    // @ts-ignore
+    this.calcular4 = this.calcularCenario4(salario);
   }
 
   getIdadeFaixa(faixa: FaixaEtaria): string {
@@ -131,6 +146,7 @@ export class AppComponent {
     const faixaIdade = this.obterFaixaIdade(idade);
     // @ts-ignore
     this.resultados.push({ salario, idade, faixaIdade, valor });
+    return valor
   }
 
   calcularCenario2(salario: any, idade: number) {
@@ -142,6 +158,8 @@ export class AppComponent {
     const faixaIdade = this.obterFaixaIdade(idade);
     // @ts-ignore
     this.resultados.push({ salario, idade, faixaIdade, valor });
+    return valor
+
   }
 
   calcularCenario3(salario: number) {
@@ -149,6 +167,8 @@ export class AppComponent {
     const valor = (salario * 60) / 100 + salario;
     // @ts-ignore
     this.resultados.push({ salario, idade: null, faixaIdade: null, valor });
+    return valor
+
   }
 
   calcularCenario4(salario: number) {
@@ -157,6 +177,8 @@ export class AppComponent {
     const valor = (valorCenario3 * 3.1) / 100;
     // @ts-ignore
     this.resultados.push({ salario, idade: null, faixaIdade: null, valor });
+    return valor
+
   }
 
   // Outros métodos de cálculo...
