@@ -5,3 +5,8 @@ Folder "./scully" doesn't seem to contain custom plugins
 
 
 
+Folder "./scully" doesn't seem to contain custom plugins
+----------------------------------   To discover new routes in the angular app use "npx scully --scanRoutes"Using stored unhandled routes!.----------------------------------
+
+
+

@@ -1,64 +1,49 @@
 {
-  "faixas": [
+  "valores": [
     {
       "idadeMin": 0,
       "idadeMax": 18,
-      "teto": 219,
-      "porcentagem": 3.6
+      "valor": 49.28
     },
     {
       "idadeMin": 19,
       "idadeMax": 23,
-      "teto": 264.00,
-      "porcentagem": 3.6
+      "valor": 49.28
     },
     {
-      "idadeMin": 23,
-      "idadeMax": 29,
-      "teto": 304.50,
-      "porcentagem": 3.6
+      "idadeMin": 24,
+      "idadeMax": 28,
+      "valor": 106.58
     },
     {
       "idadeMin": 29,
       "idadeMax": 33,
-      "teto": 344.25,
-      "porcentagem": 3.6
+      "valor": 120.49
     },
     {
       "idadeMin": 34,
       "idadeMax": 38,
-      "teto": 380.25,
-      "porcentagem": 3.6
-    },
-    {
-      "idadeMin": 39,
-      "idadeMax": 43,
-      "teto": 435.75,
-      "porcentagem": 3.6
+      "valor": 133.09
     },
     {
       "idadeMin": 44,
       "idadeMax": 48,
-      "teto": 544.50,
-      "porcentagem": 3.6
+      "valor": 190.58
     },
     {
       "idadeMin": 49,
       "idadeMax": 53,
-      "teto": 682.50,
-      "porcentagem": 3.6
+      "valor": 238.88
     },
     {
       "idadeMin": 54,
       "idadeMax": 58,
-      "teto": 893.25,
-      "porcentagem": 3.6
+      "valor": 312.64
     },
     {
       "idadeMin": 59,
       "idadeMax": 200,
-      "teto": 1080,
-      "porcentagem": 3.6
+      "valor": 439.16
     }
   ]
 }

@@ -19,6 +19,7 @@ import {CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG} from "ng2-
 import {NgxMaskModule} from "ngx-mask";
 import {ScullyLibModule} from '@scullyio/ng-lib'
 import {Router, RouterModule} from "@angular/router";
+import {MatCardModule} from "@angular/material/card";
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   allowNegative: false,
@@ -33,26 +34,27 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([]), // Certifique-se de importar o RouterModule e defina as rotas apropriadas
-    ScullyLibModule.forRoot(),
-    NgxMaskModule.forRoot(),
-    CurrencyMaskModule,
-    HttpClientModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatListModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot([]), // Certifique-se de importar o RouterModule e defina as rotas apropriadas
+        ScullyLibModule.forRoot(),
+        NgxMaskModule.forRoot(),
+        CurrencyMaskModule,
+        HttpClientModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatTableModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatListModule,
+        MatCardModule
+    ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pt-BR'},
     {provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig},

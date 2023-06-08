@@ -86,44 +86,39 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="resultado !== ''">
+    <div class="row">
 
       <div class="col-12">
-        <mat-list *ngIf="resultado" class="mat-elevation-z0 card">
+        <mat-list class="mat-elevation-z0 card">
           <mat-list-item class="mat-elevation-z1">
-            <p class="result-label mb-0 col-6">Titular ({{faixaIdade}} anos):</p>
-            <p class="result-value mb-0 col-4">{{ this.idade }}</p>
+            <p class="mb-0 col-6">Tipo de contribuição</p>
+            <p class="result-value mb-0 col-4">Valor do Dependente</p>
+            <p class="result-value mb-0 col-4">Valor final</p>
           </mat-list-item>
-          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 550">
-            <p class="result-label mb-0 col-6">Contribuição Efetiva</p>
-            <p class="result-value mb-0 col-4">R${{ resultado }}</p>
+
+          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 400">
+            <p class=" mb-0 col-6">CONTRIBUIÇÃO HOJE</p>
+            <p class="result-value mb-0 col-4"></p>
+            <p class="result-value mb-0 col-4">R${{ calcular1 }}</p>
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 400">
+            <p class=" mb-0 col-6">CONTRIBUIÇÃO CASO O PROJETO DO LEITE FOR APROVADO</p>
+            <p class="result-value mb-0 col-4">R${{ totalDependente }}</p>
+            <p class="result-value mb-0 col-4">R${{calcular2}}</p>
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 400">
+            <p class=" mb-0 col-6">COM REPOSIÇÃO INTEGRAL DA INFLAÇÃO, QUAL SERIA O SEU SALÁRIO?</p>
+            <p class="result-value mb-0 col-4"></p>
+            <p class="result-value mb-0 col-4">R${{ calcular3 }}</p>
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z1" style="background-color: #eae7e7; font-weight: 400">
+            <p class=" mb-0 col-6">CONTRIBUIÇÃO CASO SEU SALÁRIO TIVESSE RECEBIDO REPOSIÇÃO DA INFLAÇÃO</p>
+            <p class="result-value mb-0 col-4"></p>
+            <p class="result-value mb-0 col-4">R${{ calcular4 }}</p>
           </mat-list-item>
         </mat-list>
       </div>
     </div>
-    <div>
-      <h3>Cálculo 1</h3>
-      <p>Valor do Cálculo: {{ calcular1 }}</p>
-    </div>
-
-    <!-- Cálculo 2 -->
-    <div>
-      <h3>Cálculo 2</h3>
-      <p>Valor do Cálculo: {{ calcular2 }}</p>
-    </div>
-
-    <!-- Cálculo 3 -->
-    <div>
-      <h3>Cálculo 3</h3>
-      <p>Valor do Cálculo: {{ calcular3 }}</p>
-    </div>
-
-    <!-- Cálculo 4 -->
-    <div>
-      <h3>Cálculo 4</h3>
-      <p>Valor do Cálculo: {{ calcular4 }}</p>
-    </div>
-
 
   </form>
 

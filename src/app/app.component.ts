@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 // @ts-ignore
 import faixasEtariasJSON from '../assets/formula.json';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,7 @@ export class AppComponent {
   calcular2: number = 0;
   calcular3: number = 0;
   calcular4: number = 0;
+  totalDependente: number | undefined;
   grauDependencia = [
     {
       nome: 'Cônjuge e companheiro(a)',
@@ -30,20 +31,12 @@ export class AppComponent {
       value: 'Dependente sob condição de invalidez',
     },
     {
-      nome: 'Enteado(a)',
-      value: 'Enteado(a)',
-    },
-    {
       nome: 'Filho(a)',
       value: 'Filho(a)',
     },
     {
       nome: 'Ex-cônjuge ou Ex-convivente com pensão alimenticia',
       value: 'Ex-cônjuge ou Ex-convivente com pensão alimenticia',
-    },
-    {
-      nome: 'Menor sob guarda',
-      value: 'Menor sob guarda',
     },
     {
       nome: 'Tutelado(a)',
@@ -62,6 +55,15 @@ export class AppComponent {
       numeroDependentes: [''],
       dependentes: this.formBuilder.array([])
     });
+  }
+
+  formatCurrency(value: number): string {
+    const formatter = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+
+    return formatter.format(value);
   }
 
   adicionarDependentes() {
@@ -93,12 +95,12 @@ export class AppComponent {
   }
 
   loadFaixasEtarias() {
-    if (!faixasEtariasJSON || !faixasEtariasJSON.faixas) {
+    if (!faixasEtariasJSON || !faixasEtariasJSON.valores) {
       console.log('Faixas etárias não carregadas corretamente');
       return;
     }
 
-    this.faixasEtarias = faixasEtariasJSON.faixas;
+    this.faixasEtarias = faixasEtariasJSON.valores;
     const salario = parseFloat(this.submitForm.value.salarioContribuicao);
     const idade = parseFloat(this.submitForm.value.idade);
 
@@ -145,20 +147,19 @@ export class AppComponent {
     const valor = (salario * 3.1) / 100;
     const faixaIdade = this.obterFaixaIdade(idade);
     // @ts-ignore
-    this.resultados.push({ salario, idade, faixaIdade, valor });
-    return valor
+    this.resultados.push({salario, idade, faixaIdade, valor});
+    return this.formatCurrency(valor)
   }
 
   calcularCenario2(salario: any, idade: number) {
-    // Cálculo 2: 3.60% sobre o salário, adicionando o valor sobre cada dependente conforme idade,
+    // Cálculo 2: 3.60% sobre o salário, adicionando o valor sobre cada dependente conforme tabela de valores por idade.,
     // podendo atingir o valor máximo de 12% do salário do funcionário
+
     const valorBase = (salario * 3.6) / 100;
     const valorDependentes = this.calcularValorDependentes(idade);
-    const valor = Math.min(valorBase + valorDependentes, (salario * 12) / 100);
-    const faixaIdade = this.obterFaixaIdade(idade);
+    const valor = Math.min((valorBase + valorDependentes), (salario * 12) / 100);
     // @ts-ignore
-    this.resultados.push({ salario, idade, faixaIdade, valor });
-    return valor
+    return this.formatCurrency(valor)
 
   }
 
@@ -166,8 +167,8 @@ export class AppComponent {
     // Cálculo 3: 60% do salário + salário
     const valor = (salario * 60) / 100 + salario;
     // @ts-ignore
-    this.resultados.push({ salario, idade: null, faixaIdade: null, valor });
-    return valor
+    this.resultados.push({salario, idade: null, faixaIdade: null, valor});
+    return this.formatCurrency(valor)
 
   }
 
@@ -176,8 +177,8 @@ export class AppComponent {
     const valorCenario3 = (salario * 60) / 100 + salario;
     const valor = (valorCenario3 * 3.1) / 100;
     // @ts-ignore
-    this.resultados.push({ salario, idade: null, faixaIdade: null, valor });
-    return valor
+    this.resultados.push({salario, idade: null, faixaIdade: null, valor});
+    return this.formatCurrency(valor)
 
   }
 
@@ -193,10 +194,45 @@ export class AppComponent {
   }
 
   calcularValorDependentes(idade: number): number {
-    // Lógica para calcular o valor dos dependentes com base na idade
-    // ...
+    console.log('idade', idade)
+    const dependentes = this.submitForm.get('dependentes') as FormArray; //pega todos depententes
+    let valorTotalDependentes = 0;
 
-    return 0; // Valor calculado dos dependentes
+    dependentes.controls.forEach((dependenteGroup: any) => { //passa por cada dependente
+      const grauDependencia = dependenteGroup.value.grauDependencia; //nome do tipo de dependente
+      const dependenteIdade = parseFloat(dependenteGroup.value.dependenteIdade); //idade do dependente
+      console.log('dependenteIdade', dependenteIdade)
+
+      let dependenteValor = 0;
+
+      // Procurar o valor correspondente no JSON
+      const valorDependente = faixasEtariasJSON.valores.find((valor: any) => { //pega valores
+
+        // se idade do dependente for maior ou igaul ao valor minimo que esta no laço e valor idade for nula ou menor que a idade maxima da vez
+        //retorna true e pega o item.
+        return dependenteIdade >= valor.idadeMin && (valor.idadeMax === null || dependenteIdade <= valor.idadeMax);
+      });
+      console.log('valorDependente', valorDependente)
+
+      if (valorDependente) {
+        dependenteValor = valorDependente.valor;
+      }
+
+      // Adicionar o valor do dependente ao total
+      valorTotalDependentes += dependenteValor;
+      console.log('dependenteValor', dependenteValor)
+
+    });
+
+    // Somar o valor dos dependentes ao valor base (3.60% do salário)
+    this.totalDependente = valorTotalDependentes
+
+    const valorBase = (this.submitForm.value.salarioContribuicao * 3.6) / 100;
+
+    // const valorTotal = valorBase + valorTotalDependentes;
+
+    // Verificar se o valor total ultrapassa o teto de 12% do salário
+    return valorTotalDependentes;
   }
 }
 
