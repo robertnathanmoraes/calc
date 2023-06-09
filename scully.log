@@ -141,3 +141,9 @@ Folder "./scully" doesn't seem to contain custom plugins
 
 
 handleUnknownRoute: "/calculadora/assets/logo.png", 404:""
+Folder "./scully" doesn't seem to contain custom plugins
+----------------------------------   To discover new routes in the angular app use "npx scully --scanRoutes"----------------------------------Using stored unhandled routes!.
+
+
+
+handleUnknownRoute: "/calculadora/assets/logo.png", 404:""
