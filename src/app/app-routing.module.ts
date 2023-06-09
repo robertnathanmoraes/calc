@@ -10,6 +10,9 @@ const routes: Routes = [
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
+  },  {
+    path: 'calculadora',
+    loadChildren: () => import('./app.component').then(m => m.AppComponent)
   },
 ];
 

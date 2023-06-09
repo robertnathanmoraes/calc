@@ -2,8 +2,6 @@ import {Component} from '@angular/core';
 // @ts-ignore
 import faixasEtariasJSON from '../assets/formula.json';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {map, Observable} from "rxjs";
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -46,19 +44,13 @@ export class AppComponent {
     },
   ]
   valorTitular: string | undefined;
-  disableCalcular: boolean | any = false;
+  disableCalcular: boolean | any = true;
   errorEnable: boolean | any = false;
   adicionarDependentesbt: boolean = true;
-  isLandscape$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.TabletLandscape, Breakpoints.WebLandscape])
-    .pipe(
-      map(result => result.matches)
-    );
-  constructor(private formBuilder: FormBuilder,
-              private breakpointObserver: BreakpointObserver,
-              ) {
+
+  constructor(private formBuilder: FormBuilder) {
     // Carregar faixas etárias do JSON
     this.faixasEtarias = faixasEtariasJSON.faixas;
-
     this.submitForm = this.formBuilder.group({
       salarioContribuicao: [null, Validators.required],
       idade: ['', Validators.required],

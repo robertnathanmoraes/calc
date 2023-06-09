@@ -20,6 +20,7 @@ import {NgxMaskModule} from "ngx-mask";
 import {ScullyLibModule} from '@scullyio/ng-lib'
 import {Router, RouterModule} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
+import {AppRoutingModule} from "./app-routing.module";
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   allowNegative: false,
@@ -42,6 +43,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
         CurrencyMaskModule,
         HttpClientModule,
         BrowserModule,
+        AppRoutingModule,
         BrowserAnimationsModule,
         MatFormFieldModule,
         MatInputModule,

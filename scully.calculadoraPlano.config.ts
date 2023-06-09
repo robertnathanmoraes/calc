@@ -6,5 +6,11 @@ export const config: ScullyConfig = {
   projectRoot: "./src",
   projectName: "calc",
   outDir: './dist/static',
-  routes: {}
+  routes: {
+    'calculadora': {
+      type: 'contentFolder',
+      postRenderers: ['seoHrefOptimise'],
+      folder: './src/app/home'
+    },
+  }
 }

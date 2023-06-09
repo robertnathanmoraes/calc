@@ -2,7 +2,7 @@
   <mat-toolbar-row class="h-25" style="padding-left: 4%; padding-top: 1%; background-color: white">
 
     <div class="row">
-      <img src="assets/logo.png">
+      <a href="//www.sintergs.org.br"><img src="calculadora/assets/logo.png"></a>
     </div>
 
   </mat-toolbar-row>
@@ -102,7 +102,7 @@
           <div class="col-6  p-0 d-flex flex-wrap ">
             <mat-form-field appearance="outline">
               <mat-label>Grau de Dependência</mat-label>
-              <mat-select formControlName="grauDependencia">
+              <mat-select formControlName="grauDependencia" (ngModelChange)="disableBtCalcular()">
                 <mat-option *ngFor="let name of grauDependencia" [value]="name.nome"
                             style="font-size: 13px; height: 35px">
                   {{name.nome}}
@@ -154,7 +154,7 @@
             </div>
 
             <div class="col-2 text-center" style="padding: 25px">
-              <p class="result-value mb-0"><b>Contribuição com projeto do governador Eduardo Leite</b></p>
+              <p class="result-value mb-5" style="width: 110%"><b>Contribuição com projeto do governador Eduardo Leite</b></p>
             </div>
 
             <div class="col-3 text-center" style="padding: 25px">
