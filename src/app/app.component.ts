@@ -208,7 +208,7 @@ export class AppComponent {
   obterValorDaFaixaDeIdade(idade: number): any {
     for (const faixa of this.faixasEtarias) {
       if (idade >= faixa.idadeMin && idade <= faixa.idadeMax) {
-        return faixa.valor;
+        return this.formatCurrency(faixa.valor)
       }
     }
 
