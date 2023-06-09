@@ -63,7 +63,7 @@
           <div class="col-sm-12 col-md-6 p-0">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput formControlName="idade" (keydown)="validateInputValue($event)">
+              <input placeholder="0 a 120" type="text" maxlength="3" matInput formControlName="idade" (ngModelChange)="disableBtCalcular()" (keydown)="validateInputValue($event)">
             </mat-form-field>
           </div>
         </div>
@@ -75,20 +75,20 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" style="margin-top: 1%;">
 
-        <div class="col-sm-12 col-md-12 d-flex ">
-          <div class="col-sm-12 col-md-6 p-0">
-            <mat-form-field appearance="outline">
+        <div class="col-sm-12 col-md-12 d-flex flex-wrap">
+          <div class="col-sm-12 col-md-6 p-0 d-flex flex-wrap">
+            <mat-form-field appearance="outline" class="col-12 p-0">
               <mat-label>Quantos dependentes você possui?*</mat-label>
-              <input matInput formControlName="numeroDependentes"
-                     (keydown)="validateInputValue($event)">
+              <input placeholder="Maximo 20" type="text" maxlength="2" matInput formControlName="numeroDependentes"
+                     (ngModelChange)="disableBtAddDependentes()">
             </mat-form-field>
           </div>
 
-          <div class="col-sm-12 col-md-4 ml-5" style="padding-bottom: 10px" (click)="clearTable()">
-            <button class="col-sm-12" style="color: white; height: 50px; margin-top: 3.5px; background-color: #4D8448"
-                    mat-raised-button (click)="adicionarDependentes()">ADICIONAR DEPENDENTES
+          <div class="col-sm-12 col-md-4" style="padding-top: 4px" (click)="clearTable()">
+            <button class="col-md-12 col-sm-8 " style="color: white; height: 50px; text-align: center; background-color: #4D8448;{{adicionarDependentesbt ? 'color: rgba(0, 0, 0, 0.26)' : 'color: white'}}"
+                    mat-raised-button (click)="adicionarDependentes()" [disabled]="adicionarDependentesbt">ADICIONAR DEPENDENTES
             </button>
           </div>
 
@@ -99,7 +99,7 @@
       <div class="row" formArrayName="dependentes" (click)="clearTable()"
            *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index">
         <div [formGroupName]="i" class="col-12 d-flex">
-          <div class="col-6 p-0">
+          <div class="col-6  p-0 d-flex flex-wrap ">
             <mat-form-field appearance="outline">
               <mat-label>Grau de Dependência</mat-label>
               <mat-select formControlName="grauDependencia">
@@ -110,19 +110,19 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-4 ml-5">
+          <div class="col-4">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput placeholder="Placeholder" formControlName="dependenteIdade" (ngModelChange)="disableBtCalcular()" (keydown)="validateInputValue($event)">
+              <input placeholder="0 a 120" type="text" maxlength="3" matInput formControlName="dependenteIdade" (ngModelChange)="disableBtCalcular()" (keydown)="validateInputValue($event)">
             </mat-form-field>
           </div>
         </div>
-        <div class="row container">
-          <div class="col">
-          <mat-error *ngIf="(dependente.controls.grauDependencia.value == 'Filho(a)') && (dependente.controls.dependenteIdade.value >= submitForm.controls.idade.value)">Idade do filho nao pode ser maior ou igual a do titular.</mat-error>
-        </div>
-        </div>
+      </div>
 
+      <div class="row container">
+        <div class="col">
+          <mat-error *ngIf="errorEnable">Idade do filho nao pode ser maior ou igual a do titular.</mat-error>
+        </div>
       </div>
 
       <div class="row d-flex" style="padding: 15px; padding-top: 7%">

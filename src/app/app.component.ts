@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 // @ts-ignore
 import faixasEtariasJSON from '../assets/formula.json';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +44,9 @@ export class AppComponent {
     },
   ]
   valorTitular: string | undefined;
-  disableCalcular: boolean | any;
+  disableCalcular: boolean | any = false;
+  errorEnable: boolean | any = false;
+  adicionarDependentesbt: boolean = true;
 
   constructor(private formBuilder: FormBuilder) {
     // Carregar faixas etárias do JSON
@@ -57,6 +59,23 @@ export class AppComponent {
       numeroDependentes: [''],
       dependentes: this.formBuilder.array([])
     });
+  }
+
+  validateInputIdade(event: any) {
+    const inputValue = event.target.value;
+    if (inputValue && !/^(0|[1-9][0-9]?|1[01][0-9]|120)$/.test(inputValue)) {
+      event.target.value = inputValue.slice(0, -1); // Remove o último caractere inválido
+    }
+  }
+  validateInputDependentes(event: any) {
+    const inputValue = event.target.value;
+    if (inputValue && !/^([0-9]|1[0-9]|20)$/.test(inputValue)) {
+      event.target.value = inputValue.slice(0, -1); // Remove o último caractere inválido
+
+
+    }
+    this.submitForm.value.numeroDependentes = event.target.value
+
   }
 
   transform(value: string): string {
@@ -90,28 +109,35 @@ export class AppComponent {
 
   }
 
-  disableBtCalcular(){
+  disableBtCalcular() {
+    this.errorEnable = false;
+    this.disableCalcular = false;
 
-    console.log('1111', this.submitForm.value.grauDependencia)
-    console.log('2222', this.submitForm.value.dependenteIdade)
-    console.log('3333', this.submitForm.value.idade)
+    const dependentes = this.submitForm.get('dependentes') as FormArray; // pega todos dependentes
+    let temValorMenor = false;
 
-    const dependentes = this.submitForm.get('dependentes') as FormArray; //pega todos depententes
-    let valorTotalDependentes = 0;
+    if (this.submitForm.value.idade >= 121) {
+      this.disableCalcular = true;
+      return; // Retorna imediatamente, já que a idade é inválida
+    }
 
-    dependentes.controls.forEach((dependenteGroup: any) => { //passa por cada dependente
-      const grauDependencia = dependenteGroup.value.grauDependencia; //nome do tipo de dependente
-      const dependenteIdade = parseFloat(dependenteGroup.value.dependenteIdade); //idade do dependente
+    dependentes.controls.forEach((dependenteGroup: any) => { // passa por cada dependente
+      const grauDependencia = dependenteGroup.value.grauDependencia; // nome do tipo de dependente
+      const dependenteIdade = parseFloat(dependenteGroup.value.dependenteIdade); // idade do dependente
 
-      if ((grauDependencia == 'Filho(a)' && dependenteIdade >= this.submitForm.value.idade) || this.submitForm.invalid) {
-        this.disableCalcular = true;
-      } else {
-        this.disableCalcular = false
+      if (dependenteIdade >= 121){
+        this.disableCalcular = true
       }
 
+      if (grauDependencia == 'Filho(a)' && dependenteIdade > this.submitForm.value.idade) {
+        temValorMenor = true;
+        this.disableCalcular = this.submitForm.invalid || temValorMenor;
+        this.errorEnable = true;
+        return; // Retorna imediatamente, já que um valor menor foi encontrado
+      }
     });
 
-    console.log(this.disableCalcular)
+    // Verifica se o formulário é inválido ou se temValorMenor é true
   }
 
   formatCurrency(value: number): string {
@@ -133,6 +159,9 @@ export class AppComponent {
     for (let i = 0; i < numeroDependentes; i++) {
       this.adicionarDependente();
     }
+    const dependenteFormControl = this.submitForm.get('dependentes').controls.get('dependenteIdade') as FormControl;
+
+    dependenteFormControl.reset()
   }
 
   adicionarDependente() {
@@ -140,7 +169,7 @@ export class AppComponent {
 
     const dependenteGroup = this.formBuilder.group({
       grauDependencia: ['Cônjuge e companheiro(a)', Validators.required],
-      dependenteIdade: [1, Validators.required]
+      dependenteIdade: [null, Validators.required]
     });
 
     dependentes.push(dependenteGroup);
@@ -277,6 +306,14 @@ export class AppComponent {
 
   clearTable() {
     this.valorTitular = ''
+  }
+
+  disableBtAddDependentes() {
+    if(this.submitForm.value.numeroDependentes >= 21){
+      this.adicionarDependentesbt = true
+    } else {
+      this.adicionarDependentesbt = false
+    }
   }
 }
 

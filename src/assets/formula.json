@@ -26,6 +26,11 @@
       "valor": 133.09
     },
     {
+      "idadeMin": 39,
+      "idadeMax": 43,
+      "valor": 152.51
+    },
+    {
       "idadeMin": 44,
       "idadeMax": 48,
       "valor": 190.58
