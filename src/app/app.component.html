@@ -113,7 +113,7 @@
           <div class="col-4 ml-5">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput placeholder="Placeholder" formControlName="dependenteIdade" (keydown)="validateInputValue($event)">
+              <input matInput placeholder="Placeholder" formControlName="dependenteIdade" (ngModelChange)="disableBtCalcular()" (keydown)="validateInputValue($event)">
             </mat-form-field>
           </div>
         </div>
@@ -129,9 +129,9 @@
         <div class="col-12 justify-content-center">
           <div class="col-md-12 col-sm-12 d-flex justify-content-center">
             <button class="col-md-4 col-sm-12"
-                    style="height: 50px; {{submitForm.invalid ? 'color: rgba(0, 0, 0, 0.26)' : 'color: white'}}; {{submitForm.invalid ? 'background-color: rgba(0, 0, 0, 0.26)' : 'background-color: #15990A'}}"
+                    style="height: 50px; {{submitForm.invalid || disableCalcular ? 'color: rgba(0, 0, 0, 0.26)' : 'color: white'}}; {{submitForm.invalid ? 'background-color: rgba(0, 0, 0, 0.26)' : 'background-color: #15990A'}}"
                     mat-raised-button
-                    (click)="loadFaixasEtarias()" (auxclick)="calcularValorDependentes(submitForm.controls.dependenteIdade.value)" [disabled]="submitForm.invalid">CALCULAR
+                    (click)="loadFaixasEtarias()" (auxclick)="calcularValorDependentes(submitForm.controls.dependenteIdade.value)" [disabled]="disableCalcular">CALCULAR
             </button>
           </div>
         </div>

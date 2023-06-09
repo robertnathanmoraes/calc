@@ -44,6 +44,7 @@ export class AppComponent {
     },
   ]
   valorTitular: string | undefined;
+  disableCalcular: boolean | any;
 
   constructor(private formBuilder: FormBuilder) {
     // Carregar faixas etárias do JSON
@@ -75,7 +76,6 @@ export class AppComponent {
       event.preventDefault();
       return false;
     }
-
     return true;
   }
 
@@ -87,8 +87,32 @@ export class AppComponent {
     } else {
       return regex.test(char);
     }
+
   }
 
+  disableBtCalcular(){
+
+    console.log('1111', this.submitForm.value.grauDependencia)
+    console.log('2222', this.submitForm.value.dependenteIdade)
+    console.log('3333', this.submitForm.value.idade)
+
+    const dependentes = this.submitForm.get('dependentes') as FormArray; //pega todos depententes
+    let valorTotalDependentes = 0;
+
+    dependentes.controls.forEach((dependenteGroup: any) => { //passa por cada dependente
+      const grauDependencia = dependenteGroup.value.grauDependencia; //nome do tipo de dependente
+      const dependenteIdade = parseFloat(dependenteGroup.value.dependenteIdade); //idade do dependente
+
+      if ((grauDependencia == 'Filho(a)' && dependenteIdade >= this.submitForm.value.idade) || this.submitForm.invalid) {
+        this.disableCalcular = true;
+      } else {
+        this.disableCalcular = false
+      }
+
+    });
+
+    console.log(this.disableCalcular)
+  }
 
   formatCurrency(value: number): string {
     const formatter = new Intl.NumberFormat('pt-BR', {
@@ -239,9 +263,9 @@ export class AppComponent {
 
       // Adicionar o valor do dependente ao total
       valorTotalDependentes += dependenteValor;
-      setTimeout( scroll =>{
-        window.location.href='#tabela';
-      },1000)
+      setTimeout(scroll => {
+        window.location.href = '#tabela';
+      }, 1000)
     });
 
     // Somar o valor dos dependentes ao valor base (3.60% do salário)
