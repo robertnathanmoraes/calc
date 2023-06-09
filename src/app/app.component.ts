@@ -50,7 +50,7 @@ export class AppComponent {
     this.faixasEtarias = faixasEtariasJSON.faixas;
     this.submitForm = this.formBuilder.group({
       salarioContribuicao: [null, Validators.required],
-      idade: [''],
+      idade: ['', Validators.required],
       grauDependencia: [''],
       dependenteIdade: [''],
       numeroDependentes: [''],
@@ -115,8 +115,8 @@ export class AppComponent {
     const dependentes = this.submitForm.get('dependentes') as FormArray;
 
     const dependenteGroup = this.formBuilder.group({
-      grauDependencia: [''],
-      dependenteIdade: ['']
+      grauDependencia: ['Cônjuge e companheiro(a)', Validators.required],
+      dependenteIdade: [1, Validators.required]
     });
 
     dependentes.push(dependenteGroup);
@@ -239,7 +239,9 @@ export class AppComponent {
 
       // Adicionar o valor do dependente ao total
       valorTotalDependentes += dependenteValor;
-
+      setTimeout( scroll =>{
+        window.location.href='#tabela';
+      },1000)
     });
 
     // Somar o valor dos dependentes ao valor base (3.60% do salário)
@@ -247,6 +249,10 @@ export class AppComponent {
 
     // Verificar se o valor total ultrapassa o teto de 12% do salário
     return valorTotalDependentes;
+  }
+
+  clearTable() {
+    this.valorTitular = ''
   }
 }
 

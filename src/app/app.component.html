@@ -63,7 +63,7 @@
           <div class="col-sm-12 col-md-6 p-0">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput formControlName="idade">
+              <input matInput formControlName="idade" (keydown)="validateInputValue($event)">
             </mat-form-field>
           </div>
         </div>
@@ -86,7 +86,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-sm-12 col-md-4 ml-5" style="padding-bottom: 10px">
+          <div class="col-sm-12 col-md-4 ml-5" style="padding-bottom: 10px" (click)="clearTable()">
             <button class="col-sm-12" style="color: white; height: 50px; margin-top: 3.5px; background-color: #4D8448"
                     mat-raised-button (click)="adicionarDependentes()">ADICIONAR DEPENDENTES
             </button>
@@ -96,7 +96,7 @@
       </div>
 
 
-      <div class="row" formArrayName="dependentes"
+      <div class="row" formArrayName="dependentes" (click)="clearTable()"
            *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index">
         <div [formGroupName]="i" class="col-12 d-flex">
           <div class="col-6 p-0">
@@ -113,10 +113,16 @@
           <div class="col-4 ml-5">
             <mat-form-field appearance="outline">
               <mat-label>Idade</mat-label>
-              <input matInput placeholder="Placeholder" formControlName="dependenteIdade" pattern="^\d*[1-9]\d*$">
+              <input matInput placeholder="Placeholder" formControlName="dependenteIdade" (keydown)="validateInputValue($event)">
             </mat-form-field>
           </div>
         </div>
+        <div class="row container">
+          <div class="col">
+          <mat-error *ngIf="(dependente.controls.grauDependencia.value == 'Filho(a)') && (dependente.controls.dependenteIdade.value >= submitForm.controls.idade.value)">Idade do filho nao pode ser maior ou igual a do titular.</mat-error>
+        </div>
+        </div>
+
       </div>
 
       <div class="row d-flex" style="padding: 15px; padding-top: 7%">
@@ -135,7 +141,7 @@
     <div class="row" *ngIf="valorTitular">
       <div class="col-12 justify-content-center d-flex" style="padding: 7%"><h1><b>Resultado da simulação</b></h1></div>
 
-      <div class="row d-flex mb-5">
+      <div class="row d-flex mb-5" id="tabela">
 
         <mat-list class="mat-elevation-z0 card" style="border: rgba(219,216,216,0)">
           <mat-list-item>
@@ -162,7 +168,7 @@
           </mat-list-item>
 
           <mat-list-item class="" style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-            <p class=" mb-0 col-2">Titular{{faixaIdade}}</p>
+            <p class=" mb-0 col-2 font-size: 14px">Titular ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>
             <p class="table mb-0 col-2 d-flex justify-content-center">{{ calcular1 }}</p>
             <p class="table mb-0 col-2 d-flex justify-content-center">{{ valorTitular }}</p>
             <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular3 }}</p>
@@ -182,7 +188,7 @@
             <p type="text" maxlength="10" class="table mb-0 col-2 d-flex justify-content-center">{{calcular1}}</p>
             <p type="text" maxlength="10" class="table mb-0 col-2 d-flex justify-content-center">{{calcular2}}</p>
             <p type="text" maxlength="10" class="table mb-0 col-3" style="background-color: gray; height: 100%"></p>
-            <p type="text" maxlength="10" class="table mb-0 col-3" style="background-color: gray; height: 100%; margin-left: 1px; border-radius: 0 5px 5px 0"></p>
+            <p type="text" maxlength="10" class=" mb-0 col-3" style="background-color: gray; height: 100%; border-radius: 0 5px 5px 0"></p>
           </mat-list-item>
 
         </mat-list>
