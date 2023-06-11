@@ -126,7 +126,7 @@ export class AppComponent {
     const dependentes = this.submitForm.get('dependentes') as FormArray; // pega todos dependentes
     let temValorMenor = false;
 
-    if (this.submitForm.value.idade >= 121) {
+    if (this.submitForm.value.idade >= 121 || this.submitForm.value.salarioContribuicao >= 1000000) {
       this.disableCalcular = true;
       return; // Retorna imediatamente, já que a idade é inválida
     }
