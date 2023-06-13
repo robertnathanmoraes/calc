@@ -54,6 +54,12 @@ export class AppComponent {
       .pipe(
           map(result => result.matches)
       );
+  // @ts-ignore
+  calculoIpe: string;
+  // @ts-ignore
+  resultadoPatronal: string;
+    // @ts-ignore
+  resultadoReposInflacao: string;
 
   constructor(private formBuilder: FormBuilder,
               private breakpointObserver: BreakpointObserver,
@@ -148,6 +154,15 @@ export class AppComponent {
     });
 
     // Verifica se o formulário é inválido ou se temValorMenor é true
+
+    // descer ate a tabela quando clicar em calcular
+    setTimeout(scroll => {
+      window.location.href = '#tabela';
+    }, 1000)
+
+    setTimeout(scroll => {
+      window.location.href = '#tabelaMobile';
+    }, 1000)
   }
 
   formatCurrency(value: number): string {
@@ -200,7 +215,6 @@ export class AppComponent {
     const salario = parseFloat(this.submitForm.value.salarioContribuicao);
     const idade = parseFloat(this.submitForm.value.idade);
 
-
     // @ts-ignore
     this.calcular1 = this.calcularCenario1(salario);
     // @ts-ignore
@@ -217,6 +231,8 @@ export class AppComponent {
     const faixaIdade = this.obterFaixaIdade(idade);
     // @ts-ignore
     this.resultados.push({salario, idade, faixaIdade, valor});
+    console.log('calci')
+    this.calculoIpe = this.formatCurrency((valor + valor))
     return this.formatCurrency(valor)
   }
 
@@ -227,7 +243,7 @@ export class AppComponent {
     const valorTitular = (salario * 3.6) / 100
     const valorDependentes = this.calcularValorDependentes(idade);
     const valor = Math.min(Number((valorTitular + valorDependentes)), (salario * 12) / 100);
-
+    this.resultadoPatronal = this.formatCurrency((valor + valorTitular))
     // @ts-ignore
     return this.formatCurrency(valor)
 
@@ -248,6 +264,8 @@ export class AppComponent {
     const valor = (valorCenario3 * 3.1) / 100;
     // @ts-ignore
     this.resultados.push({salario, idade: null, faixaIdade: null, valor});
+
+    this.resultadoReposInflacao = this.formatCurrency((valor + valor))
     return this.formatCurrency(valor)
 
   }
@@ -302,9 +320,7 @@ export class AppComponent {
 
       // Adicionar o valor do dependente ao total
       valorTotalDependentes += dependenteValor;
-      setTimeout(scroll => {
-        window.location.href = '#tabela';
-      }, 1000)
+
     });
 
     // Somar o valor dos dependentes ao valor base (3.60% do salário)

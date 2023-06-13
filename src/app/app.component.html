@@ -52,8 +52,9 @@
                     <div class="col-sm-12 col-md-6 p-0">
 
                         <mat-form-field appearance="outline">
-                            <mat-label>Salário de Contribuição</mat-label>
-                            <input currencyMask matInput type="text" maxlength="13"  placeholder="R$" formControlName="salarioContribuicao" (ngModelChange)="disableBtCalcular()">
+                            <mat-label>Salário de bruto</mat-label>
+                            <input currencyMask matInput type="text" maxlength="13" placeholder="R$"
+                                   formControlName="salarioContribuicao" (ngModelChange)="disableBtCalcular()">
                         </mat-form-field>
 
                     </div>
@@ -146,242 +147,278 @@
         <div class="row" *ngIf="valorTitular">
             <div class="col-12 justify-content-center d-flex" style="padding: 7%"><h1><b>Resultado da simulação</b></h1>
             </div>
-            <div *ngIf="(isLandscape$ | async); else mobile" class="row d-flex mb-5" id="tabela">
+            <div class="row d-flex mb-5" id="tabela" style="margin: 15px">
 
                 <mat-list class="mat-elevation-z0 card" style="border: rgba(219,216,216,0)">
-                    <mat-list-item>
-                        <div class="col-2 text-center">
+                    <mat-list-item style="{{!(isLandscape$ | async) ? 'font-size: 13px': ''}}">
+                        <div class="col-3 text-center">
                             <p class="mb-0"><b>Descrição</b></p>
                         </div>
 
-                        <div class="col-2 text-center" style="padding: 25px">
+                        <div class="col-3 text-center" style="padding: 25px">
                             <p class="mb-0"><b>Contribuição hoje</b></p>
                         </div>
 
-                        <div class="col-2 text-center" style="padding: 25px">
-                            <p class="result-value mb-5" style="width: 110%"><b>Contribuição com projeto do governador
-                                Eduardo Leite</b></p>
+                        <div class="col-3 text-center" style="padding: 20px">
+                            <p class="result-value mb-3" style="width: 110%"><b>Contribuição com projeto do Leite</b>
+                            </p>
                         </div>
 
-                        <div class="col-3 text-center" style="padding: 25px">
-                            <p class="result-value mb-0"><b>Seu salário com reposição integral da inflação</b></p>
-                        </div>
-
-                        <div class="col-3 text-center" style="padding: 25px">
-                            <p class="result-value mb-0"><b>Contribuição com reposição da inflação no salário</b></p>
+                        <div class="col-3 text-center"
+                             style="{{ (isLandscape$ | async) ? 'padding: 25px': 'padding: 0; margin-botton: 40px;'}}">
+                            <p class="result-value mb-3"><b>Contribuição com reposição da inflação no salário</b></p>
                         </div>
 
                     </mat-list-item>
 
                     <mat-list-item class=""
-                                   style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                        <p class=" mb-0 col-2 font-size: 14px">Titular
+                                   style="{{!(isLandscape$ | async) ? 'font-size: 13px;': ''}} height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
+                        <p class=" mb-0 col-3">Titular
                             ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>
-                        <p class="table mb-0 col-2 d-flex justify-content-center">{{ calcular1 }}</p>
-                        <p class="table mb-0 col-2 d-flex justify-content-center">{{ valorTitular }}</p>
-                        <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular3 }}</p>
+                        <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular1 }}</p>
+                        <p class="table mb-0 col-3 d-flex justify-content-center">{{ valorTitular }}</p>
                         <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular4 }}</p>
                     </mat-list-item>
 
                     <mat-list-item *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"
                                    class=""
-                                   style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                        <p type="text" maxlength="10" class="mb-0 col-2"
+                                   style="{{!(isLandscape$ | async) ? 'font-size: 13px;': ''}} height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
+                        <p type="text" maxlength="10" class="mb-0 col-3"
                            style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}
                             ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>
-                        <p class="table mb-0 col-2 d-flex justify-content-center">Isento</p>
-                        <p class="table mb-0 col-2 d-flex justify-content-center">{{ obterValorDaFaixaDeIdade(dependente.controls.dependenteIdade.value)}}</p>
                         <p class="table mb-0 col-3 d-flex justify-content-center">Isento</p>
+                        <p class="table mb-0 col-3 d-flex justify-content-center">{{ obterValorDaFaixaDeIdade(dependente.controls.dependenteIdade.value)}}</p>
                         <p class="table mb-0 col-3 d-flex justify-content-center">Isento</p>
                     </mat-list-item>
 
                     <mat-list-item class=""
                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                        <p type="text" maxlength="10" class="mb-0 col-2"><b>VALOR FINAL</b></p>
-                        <p type="text" maxlength="10" class="table mb-0 col-2 d-flex justify-content-center">{{calcular1}}</p>
-                        <p type="text" maxlength="10" class="table mb-0 col-2 d-flex justify-content-center">{{calcular2}}</p>
-                        <p type="text" maxlength="10" class="table mb-0 col-3 d-flex justify-content-center">{{calcular3}}</p>
-                        <p type="text" maxlength="10" class="table mb-0 col-3 d-flex justify-content-center">{{calcular4}}</p>
+                        <p type="text" maxlength="10" class="mb-0 col-3"><b>Contribuição servidor</b></p>
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{calcular1}}</p>
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{calcular2}}</p>
+
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{calcular4}}</p>
 
                     </mat-list-item>
 
+                    <mat-list-item class=""
+                                   style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
+                        <p type="text" maxlength="10" class="mb-0 col-3"><b>Contribuição patronal</b></p>
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{calcular1}}</p>
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{valorTitular}}</p>
+
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{calcular4}}</p>
+
+                    </mat-list-item>
+
+                    <mat-list-item class=""
+                                   style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
+                        <p type="text" maxlength="10" class="mb-0 col-3"><b>Resultado IPÊ</b></p>
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{calculoIpe}}</p>
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{resultadoPatronal}}</p>
+
+                        <p type="text" maxlength="10"
+                           class="table mb-0 col-3 d-flex justify-content-center">{{resultadoReposInflacao}}</p>
+
+                    </mat-list-item>
                 </mat-list>
+
+                <div class="row mb-4">
+                    <div class="col-12 text-center" style="    font-size: 12px; padding: 15px;">
+                        <p class="result-value mb-0"><b>SALÁRIO COM PERDAS INFLACIONÁRIAS: {{calcular3}}</b></p>
+                    </div>
+                </div>
+
             </div>
 
-            <ng-template #mobile>
-                <div class="col-12 justify-content-center mb-5">
 
-                    <div class="row d-flex justify-content-center"> <!--Calculo1 -->
-                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"
-                                  style="border: rgba(219,216,216,0)">
-                            <mat-list-item>
-                                <div class="col-7">
-                                    <p class="mb-0"><b>Descrição</b></p>
-                                </div>
+            <!--            <ng-template #mobile id="tabelaMobile">-->
+            <!--                <div class="col-12 justify-content-center mb-5" style="font-size: 12px !important;" >-->
 
-                                <div class="col-5 text-center" style="padding: 25px">
-                                    <p class="mb-0"><b>Contribuição hoje</b></p>
-                                </div>
+            <!--                    <div class="row d-flex justify-content-center mb-5"> &lt;!&ndash;Calculo1 &ndash;&gt;-->
+            <!--                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"-->
+            <!--                                  style="border: rgba(219,216,216,0)">-->
+            <!--                            <mat-list-item>-->
+            <!--                                <div class="col-6">-->
+            <!--                                    <p class="mb-0"><b>Descrição</b></p>-->
+            <!--                                </div>-->
 
-                            </mat-list-item>
+            <!--                                <div class="col-6 text-center">-->
+            <!--                                    <p class="mb-0"><b>Contribuição hoje</b></p>-->
+            <!--                                </div>-->
 
-                            <mat-list-item
-                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p class=" mb-0 col-7 font-size: 14px">Titular
-                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>
-                                <p class="table mb-0 col-5 d-flex justify-content-center">{{ calcular1 }}</p>
-                                <!--                <p class="table mb-0 col-md-3 col-sm-3 d-flex justify-content-center">{{ valorTitular }}</p>-->
-                                <!--                <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular3 }}</p>-->
-                                <!--                <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular4 }}</p>-->
-                            </mat-list-item>
+            <!--                            </mat-list-item>-->
 
-                            <mat-list-item
-                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"
-                                    class=""
-                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"
-                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}
-                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>
-                                <!--                                <p class="table mb-0 d-flex justify-content-center">{{ obterValorDaFaixaDeIdade(dependente.controls.dependenteIdade.value)}}</p>-->
-                                <p class="table mb-0 col-2 d-flex justify-content-center text-center    ">Isento</p>
+            <!--                            <mat-list-item-->
+            <!--                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5; font-size: 12px">-->
+            <!--                                <p class=" mb-0 col-6" style="font-size: 12px">Titular-->
+            <!--                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 col-6 d-flex justify-content-center">{{ calcular1 }}</p>-->
+            <!--                                &lt;!&ndash;                <p class="table mb-0 col-md-3 col-sm-3 d-flex justify-content-center">{{ valorTitular }}</p>&ndash;&gt;-->
+            <!--                                &lt;!&ndash;                <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular3 }}</p>&ndash;&gt;-->
+            <!--                                &lt;!&ndash;                <p class="table mb-0 col-3 d-flex justify-content-center">{{ calcular4 }}</p>&ndash;&gt;-->
+            <!--                            </mat-list-item>-->
 
-                            </mat-list-item>
+            <!--                            <mat-list-item-->
+            <!--                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"-->
+            <!--                                    class=""-->
+            <!--                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"-->
+            <!--                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}-->
+            <!--                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>-->
+            <!--                                &lt;!&ndash;                                <p class="table mb-0 d-flex justify-content-center">{{ obterValorDaFaixaDeIdade(dependente.controls.dependenteIdade.value)}}</p>&ndash;&gt;-->
+            <!--                                <p class="table mb-0 col-6 d-flex justify-content-center text-center    ">Isento</p>-->
 
-                            <mat-list-item class=""
-                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"><b>VALOR FINAL</b></p>
-                                <p type="text" maxlength="10"
-                                   class="table mb-0 col-5 d-flex justify-content-center">{{calcular1}}</p>
-                            </mat-list-item>
+            <!--                            </mat-list-item>-->
 
-                        </mat-list>
-                    </div> <!-- calculo1 -->
+            <!--                            <mat-list-item class=""-->
+            <!--                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"><b>VALOR FINAL</b></p>-->
+            <!--                                <p type="text" maxlength="10"-->
+            <!--                                   class="table mb-0 col-6 d-flex justify-content-center">{{calcular1}}</p>-->
+            <!--                            </mat-list-item>-->
 
-                    <div class="row d-flex justify-content-center"> <!--Calculo2-->
-                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"
-                                  style="border: rgba(219,216,216,0)">
-                            <mat-list-item>
-                                <div class="col-7">
-                                    <p class="mb-0"><b>Descrição</b></p>
-                                </div>
+            <!--                        </mat-list>-->
+            <!--                    </div> &lt;!&ndash; calculo1 &ndash;&gt;-->
 
-                                <div class="col-5 text-center" style="padding: 25px">
-                                    <p class="mb-0"><b>Contribuição hoje</b></p>
-                                </div>
+            <!--                    <div class="row d-flex justify-content-center mb-5"> &lt;!&ndash;Calculo2&ndash;&gt;-->
+            <!--                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"-->
+            <!--                                  style="border: rgba(219,216,216,0); font-size: 12px">-->
+            <!--                            <mat-list-item>-->
+            <!--                                <div class="col-6 mb-2">-->
+            <!--                                    <p class="mb-0"><b>Descrição</b></p>-->
+            <!--                                </div>-->
 
-                            </mat-list-item>
+            <!--                                <div class="col-6 text-center p-0">-->
+            <!--                                    <p class="mb-2"><b>Contribuição com projeto do governador-->
+            <!--                                        Eduardo Leite</b></p>-->
+            <!--                                </div>-->
 
-                            <mat-list-item
-                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p class=" mb-0 col-7 font-size: 14px">Titular
-                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>
-                                <p class="table mb-0 col-md-3 col-sm-3 d-flex justify-content-center">{{ valorTitular }}</p>
-                            </mat-list-item>
+            <!--                            </mat-list-item>-->
 
-                            <mat-list-item
-                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"
-                                    class=""
-                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"
-                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}
-                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>
-                                <p class="table mb-0 d-flex justify-content-center">{{ obterValorDaFaixaDeIdade(dependente.controls.dependenteIdade.value)}}</p>
-                            </mat-list-item>
+            <!--                            <mat-list-item-->
+            <!--                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p class=" mb-0 col-6 font-size: 14px">Titular-->
+            <!--                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 col-6 d-flex justify-content-center">{{ valorTitular }}</p>-->
+            <!--                            </mat-list-item>-->
 
-                            <mat-list-item class=""
-                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"><b>VALOR FINAL</b></p>
-                                <p type="text" maxlength="10"
-                                   class="table mb-0 col-5 d-flex justify-content-center">{{calcular2}}</p>
-                            </mat-list-item>
+            <!--                            <mat-list-item-->
+            <!--                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"-->
+            <!--                                    class=""-->
+            <!--                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"-->
+            <!--                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}-->
+            <!--                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 d-flex justify-content-center">{{ obterValorDaFaixaDeIdade(dependente.controls.dependenteIdade.value)}}</p>-->
+            <!--                            </mat-list-item>-->
 
-                        </mat-list>
-                    </div> <!-- calculo2 -->
+            <!--                            <mat-list-item class=""-->
+            <!--                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"><b>VALOR FINAL</b></p>-->
+            <!--                                <p type="text" maxlength="10"-->
+            <!--                                   class="table mb-0 col-6 d-flex justify-content-center">{{calcular2}}</p>-->
+            <!--                            </mat-list-item>-->
 
-                    <div class="row d-flex justify-content-center"> <!--Calculo2-->
-                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"
-                                  style="border: rgba(219,216,216,0)">
-                            <mat-list-item>
-                                <div class="col-7">
-                                    <p class="mb-0"><b>Descrição</b></p>
-                                </div>
+            <!--                        </mat-list>-->
+            <!--                    </div> &lt;!&ndash; calculo2 &ndash;&gt;-->
 
-                                <div class="col-5 text-center" style="padding: 25px">
-                                    <p class="mb-0"><b>Contribuição hoje</b></p>
-                                </div>
+            <!--                    <div style="font-size: 12px" class="row d-flex justify-content-center mb-5"> &lt;!&ndash;Calculo3&ndash;&gt;-->
+            <!--                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"-->
+            <!--                                  style="border: rgba(219,216,216,0)">-->
+            <!--                            <mat-list-item>-->
+            <!--                                <div class="col-6">-->
+            <!--                                    <p class="mb-0"><b>Descrição</b></p>-->
+            <!--                                </div>-->
 
-                            </mat-list-item>
+            <!--                                <div class="col-6 text-center mb-2">-->
+            <!--                                    <p class="mb-0"><b>Seu salário com reposição integral da inflação-->
 
-                            <mat-list-item
-                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p class=" mb-0 col-7 font-size: 14px">Titular
-                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>
-                                <p class="table mb-0 col-md-3 col-sm-3 d-flex justify-content-center">{{ calcular3 }}</p>
-                            </mat-list-item>
+            <!--                                    </b></p>-->
+            <!--                                </div>-->
 
-                            <mat-list-item
-                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"
-                                    class=""
-                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"
-                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}
-                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>
-                                <p class="table mb-0 d-flex justify-content-center">Isento</p>
-                            </mat-list-item>
+            <!--                            </mat-list-item>-->
 
-                            <mat-list-item class=""
-                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"><b>VALOR FINAL</b></p>
-                                <p type="text" maxlength="10"
-                                   class="table mb-0 col-5 d-flex justify-content-center">{{calcular3}}</p>
-                            </mat-list-item>
+            <!--                            <mat-list-item-->
+            <!--                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p class=" mb-0 col-6 font-size: 14px">Titular-->
+            <!--                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 col-6 d-flex justify-content-center">{{ calcular3 }}</p>-->
+            <!--                            </mat-list-item>-->
 
-                        </mat-list>
-                    </div> <!-- calculo3 -->
+            <!--                            <mat-list-item-->
+            <!--                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"-->
+            <!--                                    class=""-->
+            <!--                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"-->
+            <!--                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}-->
+            <!--                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 d-flex justify-content-center">Isento</p>-->
+            <!--                            </mat-list-item>-->
 
-                    <div class="row d-flex justify-content-center"> <!--Calculo2-->
-                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"
-                                  style="border: rgba(219,216,216,0)">
-                            <mat-list-item>
-                                <div class="col-7">
-                                    <p class="mb-0"><b>Descrição</b></p>
-                                </div>
+            <!--                            <mat-list-item class=""-->
+            <!--                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"><b>VALOR FINAL</b></p>-->
+            <!--                                <p type="text" maxlength="10"-->
+            <!--                                   class="table mb-0 col-6 d-flex justify-content-center">{{calcular3}}</p>-->
+            <!--                            </mat-list-item>-->
 
-                                <div class="col-5 text-center" style="padding: 25px">
-                                    <p class="mb-0"><b>Contribuição hoje</b></p>
-                                </div>
+            <!--                        </mat-list>-->
+            <!--                    </div> &lt;!&ndash; calculo3 &ndash;&gt;-->
 
-                            </mat-list-item>
+            <!--                    <div style="font-size: 12px" class="row d-flex justify-content-center mb-5"> &lt;!&ndash;Calculo4&ndash;&gt;-->
+            <!--                        <mat-list class="col-12 justify-content-center mat-elevation-z0 card"-->
+            <!--                                  style="border: rgba(219,216,216,0)">-->
+            <!--                            <mat-list-item>-->
+            <!--                                <div class="col-6">-->
+            <!--                                    <p class="mb-0"><b>Descrição</b></p>-->
+            <!--                                </div>-->
 
-                            <mat-list-item
-                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p class=" mb-0 col-7 font-size: 14px">Titular
-                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>
-                                <p class="table mb-0 col-md-3 col-sm-3 d-flex justify-content-center">{{ calcular4 }}</p>
-                            </mat-list-item>
+            <!--                                <div class="col-6 text-center mb-2">-->
+            <!--                                    <p class="mb-0"><b>Contribuição com reposição da inflação no salário-->
 
-                            <mat-list-item
-                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"
-                                    class=""
-                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"
-                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}
-                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>
-                                <p class="table mb-0 d-flex justify-content-center">Isento</p>
-                            </mat-list-item>
+            <!--                                    </b></p>-->
+            <!--                                </div>-->
 
-                            <mat-list-item class=""
-                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">
-                                <p type="text" maxlength="10" class="mb-0 col-7"><b>VALOR FINAL</b></p>
-                                <p type="text" maxlength="10"
-                                   class="table mb-0 col-5 d-flex justify-content-center">{{calcular4}}</p>
-                            </mat-list-item>
+            <!--                            </mat-list-item>-->
 
-                        </mat-list>
-                    </div> <!-- calculo4 -->
+            <!--                            <mat-list-item-->
+            <!--                                    style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p class=" mb-0 col-6 font-size: 14px">Titular-->
+            <!--                                    ({{obterFaixaIdade(submitForm.controls.idade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 col-6 d-flex justify-content-center">{{ calcular4 }}</p>-->
+            <!--                            </mat-list-item>-->
 
-                </div>
-            </ng-template>
+            <!--                            <mat-list-item-->
+            <!--                                    *ngFor="let dependente of submitForm.get('dependentes').controls; let i = index"-->
+            <!--                                    class=""-->
+            <!--                                    style="height: 65px; border-style: solid; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"-->
+            <!--                                   style="font-size: 14px">{{transform(dependente.controls.grauDependencia.value)}}-->
+            <!--                                    ({{ obterFaixaIdade(dependente.controls.dependenteIdade.value) + ' anos' }})</p>-->
+            <!--                                <p class="table mb-0 d-flex justify-content-center">Isento</p>-->
+            <!--                            </mat-list-item>-->
+
+            <!--                            <mat-list-item class=""-->
+            <!--                                           style="height: 65px; border: 1px solid #B5B5B5; font-weight: 400; border-radius: 5px; border: 1px solid #B5B5B5;">-->
+            <!--                                <p type="text" maxlength="10" class="mb-0 col-6"><b>VALOR FINAL</b></p>-->
+            <!--                                <p type="text" maxlength="10"-->
+            <!--                                   class="table mb-0 col-6 d-flex justify-content-center">{{calcular4}}</p>-->
+            <!--                            </mat-list-item>-->
+
+            <!--                        </mat-list>-->
+            <!--                    </div> &lt;!&ndash; calculo4 &ndash;&gt;-->
+
+            <!--                </div>-->
+            <!--            </ng-template> &lt;!&ndash; tabela mobile &ndash;&gt;-->
         </div>
 
     </form>

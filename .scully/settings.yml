@@ -4,8 +4,8 @@ staticPort: 1668
 reloadPort: 2667
 hostName: localhost
 projectName: calc
-homeFolder: C:\Users\Robert\WebstormProjects\calculadoraPlano
+homeFolder: C:\Users\rober\WebstormProjects\calc
 distFolder: dist/calc
-outDir: C:\Users\Robert\WebstormProjects\calculadoraPlano\dist\static
+outDir: C:\Users\rober\WebstormProjects\calc\dist\static
 handle404: ''
 allowErrorCollect: true
