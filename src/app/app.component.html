@@ -147,7 +147,7 @@
         <div class="row" *ngIf="valorTitular">
             <div class="col-12 justify-content-center d-flex" style="padding: 7%"><h1><b>Resultado da simulação</b></h1>
             </div>
-            <div class="row d-flex mb-5" id="tabela" style="margin: 15px">
+            <div class="row d-flex mb-1" id="tabela" style="margin: 15px">
 
                 <mat-list class="mat-elevation-z0 card" style="border: rgba(219,216,216,0)">
                     <mat-list-item style="{{!(isLandscape$ | async) ? 'font-size: 13px': ''}}">
@@ -231,12 +231,17 @@
                     </mat-list-item>
                 </mat-list>
 
-                <div class="row mb-4">
-                    <div class="col-12 text-center" style="    font-size: 12px; padding: 15px;">
-                        <p class="result-value mb-0"><b>SALÁRIO COM PERDAS INFLACIONÁRIAS: {{calcular3}}</b></p>
+                <div class="row">
+                    <div class="col-12 text-center" style="font-size: 14px; padding: 15px;">
+                        <p class="result-value mb-0" style="font-size: 14px"><b>Seu salário atualizado adicionada a reposição inflacionária
+                            deveria ser: {{calcular3}}</b></p>
                     </div>
                 </div>
 
+            </div>
+
+            <div class="col-12 mb-4">
+                <h1 class="text-center">A salvação do IPE Saúde passa pela reposição salarial!</h1>
             </div>
 
 
